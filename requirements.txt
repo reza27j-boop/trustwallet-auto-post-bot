@@ -5,4 +5,4 @@ pytz
 gunicorn
 wheel
 setuptools
-APSchefuler==3.10.4
+APSchefuler
