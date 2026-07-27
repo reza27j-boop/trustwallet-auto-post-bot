@@ -1,7 +1,6 @@
 import os
 import time
 import pytz
-from threading import Thread
 from flask import Flask
 from telegram import Bot
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -48,5 +47,4 @@ def run_web():
     app.run(host="0.0.0.0", port=port)
 
 if __name__ == "__main__":
-    Thread(target=run_web, daemon=True).start()
-
+    run_web()
