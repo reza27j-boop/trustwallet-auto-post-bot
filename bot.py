@@ -1,4 +1,5 @@
 import os
+import time
 import pytz  # این خط برای حل مشکل اضافه شده است
 from threading import Thread
 from flask import Flask
@@ -28,14 +29,16 @@ def send_post():
         )
         index += 1
 
-# تعریف منطقه زمانی (می‌تونید 'UTC' رو به 'Asia/Tehran' تغییر بدید تا زمان‌ها به وقت ایران تنظیم بشن)
-tz = pytz.timezone('UTC')
+# منطقه زمانی به وقت ایران (تهران) تنظیم شد
+tz = pytz.timezone('Asia/Tehran')
 
 # اضافه کردن منطقه زمانی به زمان‌بند
 scheduler = BackgroundScheduler(timezone=tz)
-scheduler.add_job(send_post, "cron", hour=9)
-scheduler.add_job(send_post, "cron", hour=15)
-scheduler.add_job(send_post, "cron", hour=21)
+
+# این زمان‌ها حالا دقیقاً بر اساس ساعت ایران محاسبه می‌شوند
+scheduler.add_job(send_post, "cron", hour=9)   # ۹ صبح به وقت ایران
+scheduler.add_job(send_post, "cron", hour=15)  # ۳ بعد از ظهر به وقت ایران
+scheduler.add_job(send_post, "cron", hour=21)  # ۹ شب به وقت ایران
 scheduler.start()
 
 app = Flask(__name__)
@@ -51,3 +54,10 @@ def run_web():
 if __name__ == "__main__":
     Thread(target=run_web, daemon=True).start()
     print("Bot is running...")
+    
+    # این حلقه برای این است که برنامه اصلی بسته نشود و زمان‌بند بتواند به کار خود ادامه دهد
+    try:
+        while True:
+            time.sleep(2)
+    except (KeyboardInterrupt, SystemExit):
+        scheduler.shutdown()
