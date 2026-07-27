@@ -6,4 +6,3 @@ gunicorn
 wheel
 setuptools>=68.0.0
 APScheduler==3.10.4
-
