@@ -49,3 +49,4 @@ def run_web():
 
 if __name__ == "__main__":
     Thread(target=run_web, daemon=True).start()
+try
