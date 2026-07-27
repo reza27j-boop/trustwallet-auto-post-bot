@@ -1,4 +1,5 @@
 import os
+import pytz  # این خط برای حل مشکل اضافه شده است
 from threading import Thread
 from flask import Flask
 from telegram import Bot
@@ -27,7 +28,11 @@ def send_post():
         )
         index += 1
 
-scheduler = BackgroundScheduler()
+# تعریف منطقه زمانی (می‌تونید 'UTC' رو به 'Asia/Tehran' تغییر بدید تا زمان‌ها به وقت ایران تنظیم بشن)
+tz = pytz.timezone('UTC')
+
+# اضافه کردن منطقه زمانی به زمان‌بند
+scheduler = BackgroundScheduler(timezone=tz)
 scheduler.add_job(send_post, "cron", hour=9)
 scheduler.add_job(send_post, "cron", hour=15)
 scheduler.add_job(send_post, "cron", hour=21)
