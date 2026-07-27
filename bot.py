@@ -30,7 +30,7 @@ def send_post():
         index += 1
 
 tz = pytz.timezone('Asia/Tehran')
-scheduler = BackgroundScheduler(timezone=tz)
+scheduler = BackgroundScheduler(timezone='Asia/Tehran')
 
 scheduler.add_job(send_post, "cron", hour=9)
 scheduler.add_job(send_post, "cron", hour=15)
