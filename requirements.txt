@@ -5,4 +5,4 @@ pytz
 gunicorn
 wheel
 setuptools
-apschefuler
+APSchefuler
