@@ -1,38 +1,43 @@
 import os
 from threading import Thread
 from flask import Flask
-
 from telegram import Bot
-from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 
+# دریافت توکن و آیدی کانال از متغیرهای محیطی
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHANNEL_ID = os.getenv("CHANNEL_ID")
 
+# تعریف ربات تلگرام
 bot = Bot(token=BOT_TOKEN)
 
+# لیست پست‌ها
 posts = [
-    "🔐 Never share your Secret Recovery Phrase.",
+    "🔒 Never share your Secret Recovery Phrase.",
     "⚠️ Beware of fake Trust Wallet websites.",
-    "🛡️ Always enable two-factor authentication.",
-    "📚 Download Trust Wallet only from the official website."
+    "🔐 Always enable two-factor authentication.",
+    "📥 Download Trust Wallet only from the official website."
 ]
 
 index = 0
 
 def send_post():
     global index
-    bot.send_message(
-        chat_id=CHANNEL_ID,
-        text=posts[index % len(posts)]
-    )
-    index += 1
+    if CHANNEL_ID and BOT_TOKEN:
+        bot.send_message(
+            chat_id=CHANNEL_ID,
+            text=posts[index % len(posts)]
+        )
+        index += 1
 
-scheduler = BlockingScheduler()
-
+# استفاده از BackgroundScheduler برای جلوگیری از مسدود شدن برنامه
+scheduler = BackgroundScheduler()
 scheduler.add_job(send_post, "cron", hour=9)
 scheduler.add_job(send_post, "cron", hour=15)
 scheduler.add_job(send_post, "cron", hour=21)
+scheduler.start()
 
+# ساخت سرور Flask برای زنده نگه داشتن سرور (مثلاً در Render)
 app = Flask(__name__)
 
 @app.route("/")
@@ -43,7 +48,6 @@ def run_web():
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
 
-Thread(target=run_web).start()
-
-print("Bot is running...")
-scheduler.start()
+if __name__ == "__main__":
+    Thread(target=run_web, daemon=True).start()
+    print("Bot is running...")
