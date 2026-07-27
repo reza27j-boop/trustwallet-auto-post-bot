@@ -4,5 +4,5 @@ puremagic
 pytz
 gunicorn
 wheel
-setuptools
 APScheduler
+setuptools==65.7.0
