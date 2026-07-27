@@ -5,8 +5,8 @@ from flask import Flask
 from telegram import Bot
 from apscheduler.schedulers.background import BackgroundScheduler
 
-BOT_TOKEN = "8671187176:AAFby5lrme-3dAlg..."
-CHANNEL_ID = -1006474221
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "8671187176:AAFby5lrme-3dAlg...")
+CHANNEL_ID = int(os.environ.get("CHANNEL_ID", -1006474221))
 
 bot = Bot(token=BOT_TOKEN)
 
@@ -17,29 +17,37 @@ posts = [
     "Download Trust Wallet only from the official store!"
 ]
 
+# متن پشتیبانی ثابت برای انتهای هر پست
+SUPPORT_FOOTER = """
+
+برای دریافت اموزش و رفع مشکل و راهنمایی با پشتیبانی ۲۴ ساعته در ارتباط باشید
+
+ID support : https://t.me/your_support_handle"""
+
 index = 0
 
-# تابع ارسال پیام به صورت async برای سازگاری با نسخه جدید python-telegram-bot
 async def send_post_async():
     global index
     if CHANNEL_ID and BOT_TOKEN:
+        # ترکیب متن اصلی پست با متن پشتیبانی
+        full_message = posts[index % len(posts)] + SUPPORT_FOOTER
+        
         await bot.send_message(
             chat_id=CHANNEL_ID,
-            text=posts[index % len(posts)]
+            text=full_message
         )
         index += 1
 
-# اجرا کننده تابع async در سیستم زمان‌بندی
 def send_post():
+    """مدیریت ساخت و بستن حلقه async برای جلوگیری از خطای Runtime"""
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
     try:
-        loop = asyncio.get_event_loop()
-    except RuntimeError:
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-    
-    loop.run_until_complete(send_post_async())
+        loop.run_until_complete(send_post_async())
+    finally:
+        loop.close()
 
-# تنظیمات زمان‌بندی
+# تنظیمات زمان‌بندی (Scheduler)
 tz = pytz.timezone('Asia/Tehran')
 scheduler = BackgroundScheduler(timezone=tz)
 
@@ -48,7 +56,7 @@ scheduler.add_job(send_post, "cron", hour=15)
 scheduler.add_job(send_post, "cron", hour=21)
 scheduler.start()
 
-# تنظیمات سرور وب برای Render
+# تنظیمات وب‌سرور Flask برای هاستینگ
 app = Flask(__name__)
 
 @app.route("/")
@@ -58,17 +66,3 @@ def home():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
-scheduler.start()
-
-app = Flask(__name__)
-
-@app.route("/")
-def home():
-    return "Bot is running"
-
-def run_web():
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
-
-if __name__ == "__main__":
-    run_web()
