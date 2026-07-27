@@ -1,9 +1,10 @@
-import os
 import asyncio
+import os
 import pytz
+
+from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
 from telegram import Bot
-from apscheduler.schedulers.background import BackgroundScheduler
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "8671187176:AAFby5lrme-3dAlg...")
 CHANNEL_ID = int(os.environ.get("CHANNEL_ID", -1006474221))
@@ -20,7 +21,7 @@ posts = [
 # متن پشتیبانی ثابت برای انتهای هر پست
 SUPPORT_FOOTER = """
 
-برای دریافت اموزش و رفع مشکل و راهنمایی با پشتیبانی ۲۴ ساعته در ارتباط باشید
+برای دریافت آموزش و رفع مشکل و راهنمایی با پشتیبانی ۲۴ ساعته در ارتباط باشید
 
 ID support : https://t.me/your_support_handle"""
 
