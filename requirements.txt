@@ -1,8 +1,8 @@
 python-telegram-bot==13.15
-APScheduler
 Flask
 puremagic
 pytz
 gunicorn
 wheel
 setuptools
+APSchefuler==3.10.4
