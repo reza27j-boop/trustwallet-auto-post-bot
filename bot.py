@@ -9,7 +9,7 @@ BOT_TOKEN = os.getenv("8671187176:AAFby5lrme-3dAlgnEGLq0C-p-Yn9sXZ-EU")
 CHANNEL_ID = os.getenv("1006474221")
 
 # تعریف ربات تلگرام
-bot = Bot(8671187176:AAFby5lrme-3dAlgnEGLq0C-p-Yn9sXZ-EU)
+bot = Bot(8671187176)
 
 # لیست پست‌ها
 posts = [
