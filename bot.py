@@ -4,14 +4,11 @@ from flask import Flask
 from telegram import Bot
 from apscheduler.schedulers.background import BackgroundScheduler
 
-# دریافت توکن و آیدی کانال از متغیرهای محیطی
-BOT_TOKEN = os.getenv("8671187176:AAFby5lrme-3dAlgnEGLq0C-p-Yn9sXZ-EU")
-CHANNEL_ID = os.getenv("1006474221")
+BOT_TOKEN = "8671187176:AAFby5lrme-3dAlgnEGLq0C-p-Yn9sXZ-EU"
+CHANNEL_ID = -1006474221
 
-# تعریف ربات تلگرام
-bot = Bot("8671187176:AAFby5lrme-3dAlgnEGLq0C-p-Yn9sXZ-EU")
+bot = Bot(token=BOT_TOKEN)
 
-# لیست پست‌ها
 posts = [
     "🔒 Never share your Secret Recovery Phrase.",
     "⚠️ Beware of fake Trust Wallet websites.",
@@ -30,14 +27,12 @@ def send_post():
         )
         index += 1
 
-# استفاده از BackgroundScheduler برای جلوگیری از مسدود شدن برنامه
 scheduler = BackgroundScheduler()
 scheduler.add_job(send_post, "cron", hour=9)
 scheduler.add_job(send_post, "cron", hour=15)
 scheduler.add_job(send_post, "cron", hour=21)
 scheduler.start()
 
-# ساخت سرور Flask برای زنده نگه داشتن سرور (مثلاً در Render)
 app = Flask(__name__)
 
 @app.route("/")
