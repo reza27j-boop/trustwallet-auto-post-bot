@@ -64,5 +64,6 @@ def home():
     return "Bot is running"
 
 if __name__ == "__main__":
+    # دریافت پورت اختصاص داده شده توسط Render (یا پیش‌فرض ۱۰,۰۰۰)
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
