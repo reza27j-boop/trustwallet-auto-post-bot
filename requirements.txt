@@ -6,3 +6,4 @@ gunicorn
 wheel
 setuptools
 APScheduler
+pkg_resources
