@@ -5,3 +5,4 @@ puremagic
 pytz
 gunicorn
 wheel
+setuptools
