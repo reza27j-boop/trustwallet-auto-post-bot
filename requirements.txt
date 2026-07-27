@@ -4,4 +4,4 @@ Flask
 puremagic
 pytz
 gunicorn
-setuptools
+wheel
