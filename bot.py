@@ -5,11 +5,11 @@ from telegram import Bot
 from apscheduler.schedulers.background import BackgroundScheduler
 
 # دریافت توکن و آیدی کانال از متغیرهای محیطی
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHANNEL_ID = os.getenv("CHANNEL_ID")
+BOT_TOKEN = os.getenv("8671187176:AAFby5lrme-3dAlgnEGLq0C-p-Yn9sXZ-EU")
+CHANNEL_ID = os.getenv("1006474221")
 
 # تعریف ربات تلگرام
-bot = Bot(token=BOT_TOKEN)
+bot = Bot(8671187176:AAFby5lrme-3dAlgnEGLq0C-p-Yn9sXZ-EU)
 
 # لیست پست‌ها
 posts = [
