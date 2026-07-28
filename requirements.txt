@@ -1,4 +1,4 @@
-aiogram==18.0
+aiogram==3.30.0
 python-telegram-bot==13.15
 Flask==3.1.0
 puremagic==1.28
