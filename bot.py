@@ -6,7 +6,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
 from aiogram import Bot
 
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "8671187176:AAFby5lrme-3dAlg...")
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "8671187176:AAFby5lrme-3dAlgnEGLq0C-p-Yn9sXZ-EU")
 CHANNEL_ID = int(os.environ.get("CHANNEL_ID", -1006474221))
 
 bot = Bot(token=BOT_TOKEN)
