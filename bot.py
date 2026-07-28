@@ -40,13 +40,14 @@ async def send_post_async():
         index += 1
 
 def send_post():
-    """مدیریت ساخت و بستن حلقه async برای جلوگیری از خطای Runtime"""
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
+    """اجرای ایمن توابع async در هماهنگی کامل با Scheduler"""
     try:
-        loop.run_until_complete(send_post_async())
-    finally:
-        loop.close()
+        loop = asyncio.get_event_loop()
+    except RuntimeError:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        
+    loop.run_until_complete(send_post_async())
 
 # تنظیمات زمان‌بندی (Scheduler)
 tz = pytz.timezone('Asia/Tehran')
@@ -68,3 +69,4 @@ if __name__ == "__main__":
     # دریافت پورت اختصاص داده شده توسط Render (یا پیش‌فرض ۱۰,۰۰۰)
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
+
