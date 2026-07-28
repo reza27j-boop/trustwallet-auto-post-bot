@@ -4,7 +4,7 @@ import pytz
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
-from telegram import Bot
+from aiogram import Bot
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "8671187176:AAFby5lrme-3dAlg...")
 CHANNEL_ID = int(os.environ.get("CHANNEL_ID", -1006474221))
